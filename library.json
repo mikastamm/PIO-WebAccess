@@ -1,0 +1,30 @@
+{
+    "name": "WebAccess",
+    "version": "1.0.0",
+    "description": "A yugitron library for handling web access on ESP8266.",
+    "authors": [
+        {
+            "name": "Mika Stamm",
+            "email": "your_email@example.com",
+            "maintainer": true
+        }
+    ],
+    "repository":
+    {
+        "type": "git",
+        "url": "<your actual .git link here>"
+    },
+    "license": "MIT",
+    "dependencies": [
+        {
+            "name": "marcoschwartz/aREST",            
+            "version": "^2.9.6"
+        },
+        {
+            "name": "ayushsharma82/WebSerial@",
+            "version": "^1.3.0"
+        }
+    ],
+    "frameworks": ["arduino"],
+    "platforms": ["espressif8266"]
+}
