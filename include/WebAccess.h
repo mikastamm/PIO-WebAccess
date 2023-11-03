@@ -7,6 +7,7 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <ESPAsyncWebServer.h>
+#include <WebSerial.h>
 
 class WebAccess {
 public:

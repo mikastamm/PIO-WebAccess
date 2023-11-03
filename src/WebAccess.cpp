@@ -18,9 +18,7 @@ WebAccess::~WebAccess() {
 void WebAccess::RegisterFunction(const String& functionName, int (*function)(String)) {
     // Create new arrays with an extra slot
     String* newFunctionNames = new String[functionNameCount + 1];
-    
-    // Corrected line for creating a dynamic array of function pointers
-    int (**newFunctions)(String) = new (int (*[functionNameCount + 1])(String));
+    int (**newFunctions)(String) = new int (*[functionNameCount + 1])(String);
 
     // Copy the old data over to the new arrays
     for (int i = 0; i < functionNameCount; i++) {
