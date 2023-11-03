@@ -19,7 +19,7 @@ public:
     void ReportError(const String& error, const String& errorCode);
     void Setup(String deviceName,String devicePassword = "");
     void addWifiNetwork(const String& ssid, const String& pass);
-
+    void listen();
 
 private:
   struct WifiCredentials {
