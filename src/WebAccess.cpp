@@ -54,16 +54,16 @@ void WebAccess::setupWebSerial() {
             d += char(data[i]);
         }
         bool found = false;
-        this->println(">" + d);
+        this->Println(">" + d);
         for (int i = 0; i < sizeof(this->functionNames) / sizeof(this->functionNames[0]); i++) {
             if (d.startsWith(this->functionNames[i])) {
-                this->println("Running " + this->functionNames[i]);
+                this->Println("Running " + this->functionNames[i]);
                 this->functions[i](d.substring(this->functionNames[i].length() + 1));
                 found = true;
             }
         }
         if (!found) {
-            this->println("Command not found. Available commands:");
+            this->Println("Command not found. Available commands:");
             printAvailableCommands();
         }
     });
@@ -71,7 +71,7 @@ void WebAccess::setupWebSerial() {
 
 void WebAccess::printAvailableCommands() {
     for (int i = 0; i < this->functionNameCount; i++) {
-        this->println(this->functionNames[i] + "\nhttp://" + DEVICE_NAME + ".local/" + this->functionNames[i] + "?params=\n");
+        this->Println(this->functionNames[i] + "\nhttp://" + DEVICE_NAME + ".local/" + this->functionNames[i] + "?params=\n");
     }
 }
 void WebAccess::Print(const String& message) {
@@ -108,7 +108,7 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
         wifiCredentials = newWifiCredentials;
         networkCount++;
     }
- void WebAccess::SetupWifi() {
+ void WebAccess::setupWifi() {
         if (networkCount <= 0) {
             ReportError("No Wifi Network Credentials provided", "WIFI_CONFIG");
             return;
@@ -145,7 +145,7 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
     }
 
 
-void WebAccess::SetupOTA(String deviceName, String password) {
+void WebAccess::setupOTA(String deviceName, String password) {
     WiFi.mode(WIFI_STA);
     ArduinoOTA.setHostname(deviceName.c_str());
 
@@ -156,24 +156,24 @@ void WebAccess::SetupOTA(String deviceName, String password) {
     ArduinoOTA.onStart([this]() {
         String type = (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem";
         // NOTE: if updating FS this would be the place to unmount FS using FS.end()
-        println("🔧Updating " + type);
+        Println("🔧Updating " + type);
     });
 
     ArduinoOTA.onEnd([this]() {
-        println("🔧Done Updating");
+        Println("🔧Done Updating");
     });
 
     ArduinoOTA.onProgress([this](unsigned int progress, unsigned int total) {
-        printf("🔧 Update Progress: %u%%\r", (progress / (total / 100)));
+        Printf("🔧 Update Progress: %u%%\r", (progress / (total / 100)));
     });
 
     ArduinoOTA.onError([this](ota_error_t error) {
-        printf("🔧❌Error[%u]: ", error);
-        if (error == OTA_AUTH_ERROR) println(">>Auth Failed");
-        else if (error == OTA_BEGIN_ERROR) println(">>Begin Failed");
-        else if (error == OTA_CONNECT_ERROR) println(">>Connect Failed");
-        else if (error == OTA_RECEIVE_ERROR) println(">>Receive Failed");
-        else if (error == OTA_END_ERROR) println(">>End Failed");
+        Printf("🔧❌Error[%u]: ", error);
+        if (error == OTA_AUTH_ERROR) Println(">>Auth Failed");
+        else if (error == OTA_BEGIN_ERROR) Println(">>Begin Failed");
+        else if (error == OTA_CONNECT_ERROR) Println(">>Connect Failed");
+        else if (error == OTA_RECEIVE_ERROR) Println(">>Receive Failed");
+        else if (error == OTA_END_ERROR) Println(">>End Failed");
     });
 
     ArduinoOTA.begin();
