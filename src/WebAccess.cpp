@@ -164,11 +164,11 @@ void WebAccess::setupOTA(String deviceName, String password) {
     });
 
     ArduinoOTA.onProgress([this](unsigned int progress, unsigned int total) {
-        Printf("🔧 Update Progress: %u%%\r", (progress / (total / 100)));
+        printf("🔧 Update Progress: %u%%\r", (progress / (total / 100)));
     });
 
     ArduinoOTA.onError([this](ota_error_t error) {
-        Printf("🔧❌Error[%u]: ", error);
+        printf("🔧❌Error[%u]: ", error);
         if (error == OTA_AUTH_ERROR) Println(">>Auth Failed");
         else if (error == OTA_BEGIN_ERROR) Println(">>Begin Failed");
         else if (error == OTA_CONNECT_ERROR) Println(">>Connect Failed");
