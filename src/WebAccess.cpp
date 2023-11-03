@@ -55,7 +55,7 @@ void WebAccess::setupWebSerial() {
         }
         bool found = false;
         this->Println(">" + d);
-        for (int i = 0; i < sizeof(this->functionNames) / sizeof(this->functionNames[0]); i++) {
+        for (int i = 0; i < functionNameCount; i++) {
             if (d.startsWith(this->functionNames[i])) {
                 this->Println("Running " + this->functionNames[i]);
                 this->functions[i](d.substring(this->functionNames[i].length() + 1));
