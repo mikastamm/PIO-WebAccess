@@ -15,10 +15,13 @@ WebAccess::~WebAccess() {
     delete[] functions;
 }
 
-void WebAccess::RegisterFunction(const String& functionName, int (*function)(String)) {
+// Using typedef for clarity
+typedef int (*FunctionPointer)(String);
+
+void WebAccess::RegisterFunction(const String& functionName, FunctionPointer function) {
     // Create new arrays with an extra slot
     String* newFunctionNames = new String[functionNameCount + 1];
-    int (**newFunctions)(String) = new int (*[functionNameCount + 1])(String);
+    FunctionPointer* newFunctions = new FunctionPointer[functionNameCount + 1];
 
     // Copy the old data over to the new arrays
     for (int i = 0; i < functionNameCount; i++) {
@@ -38,6 +41,7 @@ void WebAccess::RegisterFunction(const String& functionName, int (*function)(Str
     functions = newFunctions;
     functionNameCount++;
 }
+
 
 
 void WebAccess::setupWebSerial() {
