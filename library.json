@@ -17,7 +17,9 @@
     "license": "MIT",
     "dependencies": {
             "marcoschwartz/aREST":"*",
-            "ayushsharma82/WebSerial": "*"
+            "ayushsharma82/WebSerial": "*",
+            "me-no-dev/ESPAsyncTCP":"*",
+            "ottowinter/ESPAsyncWebServer-esphome":"*"
     },
     "frameworks": ["arduino"],
     "platforms": ["espressif8266"]
