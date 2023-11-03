@@ -189,3 +189,7 @@ void WebAccess::Setup(String deviceName, String devicePassword) {
     setupOTA(deviceName, devicePassword);
     setupWebSerial();
 }
+
+void WebAccess::listen(){
+    ArduinoOTA.handle();
+}
