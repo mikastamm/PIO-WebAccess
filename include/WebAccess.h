@@ -17,17 +17,27 @@ public:
     void println(const String& message);
     void RegisterFunction(const String& functionName, int (*function)(String));
     void ReportError(const String& error, const String& errorCode);
-    void Setup(String deviceName, String wifiNetworks[], String wifiPasswords[], String devicePassword = "");
+    void Setup(String deviceName,String devicePassword = "");
+    void addWifiNetwork(const String& ssid, const String& pass);
+
 
 private:
+  struct WifiCredentials {
+        String ssid;
+        String password;
+    };
     void setupWebSerial();
     void printAvailableCommands();
-    void setupWifi(String wifiNetworks[], String wifiPasswords[], int networkCount);
+    void setupWifi();
     void setupOTA(String deviceName, String password = "");
 
     String* functionNames = nullptr;
     int (**functions)(String) = nullptr;
     int functionNameCount = 0;
+
+    WifiCredentials* wifiCredentials = nullptr;
+    int networkCount = 0;
+
 };
 
 #endif // WEBACCESS_H

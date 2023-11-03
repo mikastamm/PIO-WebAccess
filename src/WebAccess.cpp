@@ -90,34 +90,60 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
     WebSerial.println(errorMessage);
 }
 
-void WebAccess::setupWifi(String wifiNetworks[], String wifiPasswords[], int networkCount) {
-    if (networkCount <= 0) {
-        ReportError("No Wifi Network Credentials provided", "WIFI_CONFIG");
-        return;
+  void WebAccess::addWifiNetwork(const String& ssid, const String& pass) {
+        // Create a new array with an extra slot for the new network
+        WifiCredentials* newWifiCredentials = new WifiCredentials[networkCount + 1];
+
+        // Copy existing credentials over
+        for (int i = 0; i < networkCount; i++) {
+            newWifiCredentials[i] = wifiCredentials[i];
+        }
+
+        // Add the new network credentials
+        newWifiCredentials[networkCount].ssid = ssid;
+        newWifiCredentials[networkCount].password = pass;
+
+        // Delete the old array and update the pointer
+        delete[] wifiCredentials;
+        wifiCredentials = newWifiCredentials;
+        networkCount++;
     }
+ void WebAccess::setupWifi() {
+        if (networkCount <= 0) {
+            ReportError("No Wifi Network Credentials provided", "WIFI_CONFIG");
+            return;
+        }
 
-    int currentNetwork = 0;
-    while(true) {
-        print("🌐 Connecting to " + wifiNetworks[currentNetwork] + "...");
-        WiFi.begin(wifiNetworks[currentNetwork].c_str(), wifiPasswords[currentNetwork].c_str());
-        
-        delay(500);  // Give it a moment to try to connect.
+        int currentNetwork = 0;
+        while (true) {
+            Serial.print("🌐 Connecting to " + wifiCredentials[currentNetwork].ssid + ":" + wifiCredentials[currentNetwork].password );
+            WiFi.begin(wifiCredentials[currentNetwork].ssid.c_str(), wifiCredentials[currentNetwork].password.c_str());
+            
+            for (int i = 0; i < 20; i++)
+            {
+                delay(500);
+                if(WiFi.status() == WL_CONNECTED)
+                continue;
+                Serial.print(".");
+            }
+            
 
-        if (WiFi.status() == WL_CONNECTED) {
-            Serial.println("🔗 Connected to " + wifiNetworks[currentNetwork]);
-            Serial.println("IP: " + WiFi.localIP().toString());
-            break;
-        } else {
-            Serial.println("❌ Failed to connect to " + wifiNetworks[currentNetwork]);
-            currentNetwork++;
+            if (WiFi.status() == WL_CONNECTED) {
+                Serial.println("\n🔗 Connected to " + wifiCredentials[currentNetwork].ssid);
+                Serial.println("IP: " + WiFi.localIP().toString());
+                break;
+            } else {
+                Serial.println("❌ Failed to connect to " + wifiCredentials[currentNetwork].ssid);
+                currentNetwork++;
 
-            // If we've tried all the networks, start from the first one again.
-            if (currentNetwork == networkCount) {
-                currentNetwork = 0;
+                // If we've tried all the networks, start from the first one again.
+                if (currentNetwork == networkCount) {
+                    currentNetwork = 0;
+                }
             }
         }
     }
-}
+
 
 void WebAccess::setupOTA(String deviceName, String password) {
     WiFi.mode(WIFI_STA);
@@ -151,14 +177,15 @@ void WebAccess::setupOTA(String deviceName, String password) {
     });
 
     ArduinoOTA.begin();
-    println("✅OTA ready");
+    Serial.println("✅OTA ready");
 }
 
 
-void WebAccess::Setup(String deviceName, String wifiNetworks[], String wifiPasswords[], String devicePassword) {
+void WebAccess::Setup(String deviceName, String devicePassword) {
     this->functionNames = functionNames;
     this->functions = functions;
     this->functionNameCount = functionNameCount;
-    setupWifi(wifiNetworks, wifiPasswords, 3); //3 is function name count
+    setupWifi(); //3 is function name count
     setupOTA(deviceName, devicePassword);
+    setupWebSerial();
 }
