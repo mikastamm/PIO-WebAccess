@@ -74,12 +74,12 @@ void WebAccess::printAvailableCommands() {
         this->println(this->functionNames[i] + "\nhttp://" + DEVICE_NAME + ".local/" + this->functionNames[i] + "?params=\n");
     }
 }
-void WebAccess::print(const String& message) {
+void WebAccess::Print(const String& message) {
     Serial.print(message);
     WebSerial.print(message);
 }
 
-void WebAccess::println(const String& message) {
+void WebAccess::Println(const String& message) {
     Serial.println(message);
     WebSerial.println(message);
 }
@@ -90,7 +90,7 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
     WebSerial.println(errorMessage);
 }
 
-  void WebAccess::addWifiNetwork(const String& ssid, const String& pass) {
+  void WebAccess::AddWifiNetwork(const String& ssid, const String& pass) {
         // Create a new array with an extra slot for the new network
         WifiCredentials* newWifiCredentials = new WifiCredentials[networkCount + 1];
 
@@ -108,7 +108,7 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
         wifiCredentials = newWifiCredentials;
         networkCount++;
     }
- void WebAccess::setupWifi() {
+ void WebAccess::SetupWifi() {
         if (networkCount <= 0) {
             ReportError("No Wifi Network Credentials provided", "WIFI_CONFIG");
             return;
@@ -145,7 +145,7 @@ void WebAccess::ReportError(const String& error, const String& errorCode) {
     }
 
 
-void WebAccess::setupOTA(String deviceName, String password) {
+void WebAccess::SetupOTA(String deviceName, String password) {
     WiFi.mode(WIFI_STA);
     ArduinoOTA.setHostname(deviceName.c_str());
 
@@ -190,6 +190,6 @@ void WebAccess::Setup(String deviceName, String devicePassword) {
     setupWebSerial();
 }
 
-void WebAccess::listen(){
+void WebAccess::Listen(){
     ArduinoOTA.handle();
 }

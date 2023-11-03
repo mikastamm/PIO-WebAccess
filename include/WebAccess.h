@@ -13,13 +13,13 @@ class WebAccess {
 public:
     WebAccess();
     ~WebAccess(); // Destructor to deallocate memory
-    void print(const String& message);
-    void println(const String& message);
+    void Print(const String& message);
+    void Println(const String& message);
     void RegisterFunction(const String& functionName, int (*function)(String));
     void ReportError(const String& error, const String& errorCode);
     void Setup(String deviceName,String devicePassword = "");
-    void addWifiNetwork(const String& ssid, const String& pass);
-    void listen();
+    void AddWifiNetwork(const String& ssid, const String& pass);
+    void Listen();
 
 private:
   struct WifiCredentials {
