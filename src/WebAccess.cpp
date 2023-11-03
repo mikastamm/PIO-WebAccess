@@ -54,10 +54,11 @@ void WebAccess::setupWebSerial() {
             d += char(data[i]);
         }
         bool found = false;
-        this->Println(">" + d);
+        this->Println(d);
+        this->Println("```");
+
         for (int i = 0; i < functionNameCount; i++) {
             if (d.startsWith(this->functionNames[i])) {
-                this->Println("Running " + this->functionNames[i]);
                 this->functions[i](d.substring(this->functionNames[i].length() + 1));
                 found = true;
             }
@@ -66,6 +67,8 @@ void WebAccess::setupWebSerial() {
             this->Println("Command not found. Available commands:");
             printAvailableCommands();
         }
+        this->Println("```");
+
     });
 }
 
