@@ -16,8 +16,8 @@
     },
     "license": "MIT",
     "dependencies": {
-            "marcoschwartz/aREST":"^2.9.6",
-            "ayushsharma82/WebSerial": "^1.3.0"
+            "marcoschwartz/aREST":"*",
+            "ayushsharma82/WebSerial": "*"
     },
     "frameworks": ["arduino"],
     "platforms": ["espressif8266"]
